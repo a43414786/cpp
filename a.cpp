@@ -2,6 +2,7 @@
 #include<cstring>
 #include<vector>
 using namespace std;
+/*
 struct ListNode{
     int val;
     ListNode * next;
@@ -18,19 +19,22 @@ public:
            ListNode * first = head;
            ListNode *before = nullptr;
            ListNode *after = nullptr;
-           for(int i = 0 ; i < k-1 ; i++){
+           for(int i = 0 ; i < k-1; i++){
                after = head->next;
                head->next = before;
                before = head;
                head = after;
            }
+           head->next = before;
            return head;
-       }/*
+       }
        ListNode* reverseKGroup(ListNode* head, int k) {
         ListNode * forward = head;
         bool flag = true;
+        ListNode * temp3 = nullptr;
         while(forward){
             ListNode * temp = forward;
+            ListNode *temp2 = nullptr,*first = nullptr;
             int count = 0;
             for(int i = 0 ; i < k ; i++){
                 
@@ -42,30 +46,48 @@ public:
 
             }
             if(count == k){
-                reverse(forward,k);
+                first = forward;
+                temp2 = reverse(forward,k);
+                first->next = temp;
+                forward = temp;
+              
+            }else{
+                temp2 = forward;
+                forward = nullptr;
             }
             if(flag){
-                head = forward;
+                head = temp2;
+                temp3 = first;
                 flag = false;
+           }else{
+                temp3->next = temp2;
+                temp3 = first;
             }
         }
-        return nullptr;
-    }*/
+        return head;
+    }
 };
+ListNode * create(vector<int> v){
+    ListNode *head = nullptr;
+    for(auto n : v){
+        ListNode *a = new ListNode(n,head);
+        head = a;
+    }
+    return head;
+}
 int main(){
-    ListNode a{1};
-    ListNode b{2,&a};
-    ListNode head{3,&b};
-    cout << (&head)->next->val;
-    int k = 3;
+    vector<int> t{1,2,3,4,5,6};
+    ListNode *head = create(t);
+    int k = 5;
     Solution sol;
-    ListNode * test = sol.reverse(&head , k);
+    ListNode * test = sol.reverseKGroup(head , k);
     while(test){
         cout << test->val;
         test = test->next;
     }
     return 0;
 }
+*/
 /*
 class Solution {
 public:
@@ -81,7 +103,7 @@ public:
         while(haystack[idx1]){
             int idx2 = 0;
             while(needle[idx2]){
-                
+                    
                 if(haystack[idx1] == needle[idx2]){
                     idx1++;
                     idx2++;
@@ -105,3 +127,46 @@ int main(){
     cout << sol.strStr(haystack,needle);
     return 0;
 }*/
+
+
+class Solution{
+public:
+    vector<vector<int>> threeSum(vector<int> &nums){
+        vector<vector<int>> ans;
+        for(int i = 0 ; i < nums.size()-2 ; i++){
+            for(int j = i+1 ; j < nums.size()-1 ; j++){
+                for(int k = j+1 ; k < nums.size() ; k++){
+                    if(nums[i]+nums[j]+nums[k] == 0 && (i!=j && i!=k && j!=k)){
+                        vector<int> a{nums[i],nums[j],nums[k]};
+                        ans.push_back(a);
+                    }
+                }
+ 
+            }
+ 
+       }
+       return ans;
+    }
+};
+
+int main(){
+   Solution sol;
+   vector<int> nums{-1,0,1,2,-1,-4};
+   vector<vector<int>> ans = sol.threeSum(nums);
+   for(auto i : ans){
+       for(auto j : i)cout << j;
+       cout << endl;
+   }
+       return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
